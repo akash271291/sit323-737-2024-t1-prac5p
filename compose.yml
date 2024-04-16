@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    image: akash271291/node-web-app:1.1.1
+    ports:
+      - '3001:3000'
+    environment:
+      - PORT=3040
+    container_name: my-app
+    networks:
+      - my-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  app1:
+    build: .
+    image: akash271291/node-web-app:1.1.1
+    ports:
+      - '3000:3000'
+    environment:
+      - PORT=3040
+    container_name: my-app1
+    networks:
+      - my-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+networks:
+  my-net:
+    driver: bridge
